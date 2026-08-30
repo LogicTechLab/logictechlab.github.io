@@ -12,9 +12,9 @@ const URLS = {
 
     DISCORD:"https://discord.gg/",
 
-    YOUTUBE:"https://youtube.com/@Bill_LTL.Studio",
+    YOUTUBE:"https://youtube.com/@LogicTechLab",
 
-    GITHUB:"https://github.com/Bill-LTL"
+    GITHUB:"https://github.com/LogicTechLab"
 
 };
 
