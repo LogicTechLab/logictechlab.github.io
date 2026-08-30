@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCLTL Minecraft Server</title>
+<style>
+/* =======================
+   全局樣式
+======================= */
+body {
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#0f1115;
+    color:white;
+    overflow-x:hidden;
+}
+#particles {
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:-1;
+    background:#0f1115;
+}
+
+/* =======================
+    Hub
+======================= */
+.nav-bar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 40px;
+    background:#1b1f27;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+    box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+.nav-bar .logo img { max-height: 60px; width:auto; }
+.nav-menu{ display:flex; gap:10px; align-items:center; }
+.nav-item{ position:relative; font-size:18px; }
+.nav-link{ display:block; padding:12px 20px; color:white; text-decoration:none; border-radius:6px; }
+.nav-link:hover{ background:#2f80ff; }
+.dropdown-content{
+    display:none;
+    position:absolute;
+    background:#171a21;
+    min-width:160px;
+    top:100%;
+    left:0;
+    flex-direction:column;
+    border-radius:6px;
+    box-shadow:0 8px 16px rgba(0,0,0,0.3);
+    z-index:50;
+}
+.dropdown-content a{ display:block; padding:12px 16px; color:white; text-decoration:none; }
+.dropdown-content a:hover{ background:#2f80ff; }
+.nav-item.dropdown:hover .dropdown-content{ display:flex; }
+
+/* =======================
+   Header
+======================= */
+header{
+    text-align:center;
+    padding:180px 20px 60px 20px;
+}
+h1{ font-size:60px; margin:0; }
+.subtitle{ font-size:20px; color:#ccc; margin-top:10px; }
+.server-ip{
+    margin-top:30px;
+    font-size:24px;
+    background:#1b1f27;
+    padding:15px 30px;
+    display:inline-block;
+    border-radius:8px;
+    cursor:pointer;
+}
+.status{ margin-top:20px; font-size:20px; color:#ffcc00; }
+
+/* =======================
+   Section
+======================= */
+section{
+    max-width:1000px;
+    margin:auto;
+    padding:60px 20px;
+    text-align:center;
+}
+.features{ display:flex; flex-wrap:wrap; justify-content:center; gap:30px; }
+.feature{ background:#171a21; padding:25px; border-radius:8px; width:260px; }
+.map-container{ margin:40px auto; max-width:1000px; height:500px; }
+.map-container iframe{ width:100%; height:100%; border:3px solid #2f80ff; border-radius:8px; }
+
+/* footer */
+footer{ text-align:center; padding:20px; background:#0a0c10; color:#888; }
+
+/* =======================
+    Hub + 側邊菜單
+======================= */
+@media screen and (max-width:768px){
+    .nav-bar{ display:none; }
+    .mobile-hub{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        padding:10px;
+        background:#1b1f27;
+        position:fixed;
+        top:0;
+        width:100%;
+        z-index:100;
+        box-shadow:0 2px 6px rgba(0,0,0,0.3);
+    }
+    .mobile-hub .hamburger{ font-size:28px; cursor:pointer; color:white; }
+    .mobile-hub .logo img{ max-height:50px; width:auto; }
+
+    .mobile-menu{
+        position:fixed;
+        left:-250px;
+        top:60px;
+        height:calc(100% - 60px);
+        width:auto;
+        min-width:150px;
+        max-width:80%;
+        background:#1b1f27;
+        flex-direction:column;
+        gap:0;
+        padding:10px;
+        transition:left 0.3s ease;
+        z-index:105;
+    }
+    .mobile-menu.show{ left:0; }
+    .mobile-menu .nav-item{ border-bottom:none; }
+    .mobile-menu .nav-link{ padding:15px 20px; display:block; white-space:nowrap; }
+    .mobile-menu .dropdown-content{
+        position: relative;
+        top:0; left:0;
+        box-shadow:none;
+        border-radius:8px;
+        display:none;
+        max-height:0;
+        overflow:hidden;
+        transition: max-height 0.3s ease;
+        padding-left:10px;
+    }
+    .mobile-menu .dropdown-content.show{
+        display:flex;
+        flex-direction: column;
+        max-height:500px;
+    }
+}
+@media screen and (min-width:769px){
+    .mobile-hub{ display:none; }
+    .mobile-menu{ display:none; }
+}
+/* =======================
+   iframe 全頁
+======================= */
+
+.iframe-page{
+    position: fixed;
+    top: 70px;          /* Hub 高度 */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+}
+
+.full-iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- ==============================
+     桌面端 Hub
+============================== -->
+<div class="nav-bar">
+    <div class="logo"><a href="/"><img src="images/logo.png" alt="LTL"></a></div>
+    <div class="nav-menu">
+        <div class="nav-item dropdown">
+            <a class="nav-link" href="javascript:void(0)">加入社區 ▼</a>
+            <div class="dropdown-content">
+                <a class="discord-desktop" target="_blank">Discord</a>
+                <a class="youtube-desktop" target="_blank">YouTube</a>
+                <a class="github-desktop" target="_blank">GitHub</a>
+            </div>
+        </div>
+        <div class="nav-item"><a class="desktop-modpack nav-link" target="_blank">整合包下載</a></div>
+        <div class="nav-item"><a class="desktop-map nav-link" target="_blank">世界地圖</a></div>
+        <div class="nav-item">
+            <a class="desktop-cloud nav-link">未知領域</a>
+        </div>
+    </div>
+</div>
+
+<!-- ==============================
+     手機端 Hub
+============================== -->
+<div class="mobile-hub">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="logo"><a href="/"><img src="images/logo.png" alt="LTL"></a></div>
+</div>
+
+<!-- ==============================
+     手機端側邊菜單
+============================== -->
+<div class="nav-menu mobile-menu">
+    <div class="nav-item dropdown" onclick="toggleDropdown(this)">
+        <a class="nav-link" href="javascript:void(0)">加入社區 ▼</a>
+        <div class="dropdown-content">
+            <a class="discord-mobile" target="_blank">Discord</a>
+            <a class="youtube-mobile" target="_blank">YouTube</a>
+            <a class="github-mobile" target="_blank">GitHub</a>
+        </div>
+    </div>
+    <div class="nav-item"><a class="mobile-modpack nav-link" target="_blank">整合包下載</a></div>
+    <div class="nav-item"><a class="mobile-map nav-link" target="_blank">世界地圖</a></div>
+    <div class="nav-item">
+    <a class="mobile-cloud nav-link">未知領域</a>
+</div>
+</div>
+
+<!-- ==============================
+     Header
+============================== -->
+
+<div class="iframe-page">
+    <iframe
+        src="https://huawei.dog"
+        class="full-iframe">
+    </iframe>
+</div>
+
+<footer>© 2026 LTL Minecraft Server </footer>
+
+<!-- ==============================
+     JavaScript
+============================== -->
+<script>
+/* ==============================
+   URL 變量
+============================== */
+const SERVER ="mcltl.dpdns.org"
+const SERVER_MC = "mc.mcltl.dpdns.org";
+const CLOUD_URL = "XUANWU.html";
+const MODPACK_URL = `https://wwbgr.lanzn.com/iCWQg3sfo6fc`;
+const MAP_URL     = `https://${SERVER}/map`;
+const DISCORD_URL = "https://discord.gg/CQsjNVZT4r";
+const YOUTUBE_URL = "https://youtube.com/@Bill_LTL.Studio";
+const GITHUB_URL  = "https://www.github.com/Bill-LTL";
+
+/* 漢堡菜單切換 */
+function toggleMenu(){ document.querySelector('.mobile-menu').classList.toggle('show'); }
+
+/* 手機端下拉 */
+function toggleDropdown(element){
+    if(window.innerWidth <= 768){ element.querySelector('.dropdown-content').classList.toggle('show'); }
+}
+
+/* 點擊複製 IP */
+function copyIP(){
+    const ip = document.getElementById('ip-text').innerText;
+    navigator.clipboard.writeText(ip).then(()=>{ alert("IP 已複製（使用前請確認您擁有IPv6地址）: " + ip); });
+}
+
+/* Minecraft 伺服器狀態檢查 */
+async function checkServer(){
+    const statusEl = document.getElementById('server-status');
+    try{
+        const res = await fetch(`https://api.mcsrvstat.us/2/${SERVER_MC}`);
+        const data = await res.json();
+        if(data.online){
+            statusEl.textContent = `伺服器在線 - 玩家數: ${data.players.online}/${data.players.max}`;
+            statusEl.style.color = "#00ff00";
+        } else{
+            statusEl.textContent = "伺服器離線";
+            statusEl.style.color = "#ff0000";
+        }
+    } catch(e){
+        statusEl.textContent = "無法獲取狀態";
+        statusEl.style.color = "#ffcc00";
+    }
+}
+checkServer();
+// 點擊空白自動收回手機側邊菜單
+document.addEventListener('click', function(e){
+    const menu = document.querySelector('.mobile-menu');
+    const hub = document.querySelector('.mobile-hub .hamburger');
+    if(menu.classList.contains('show') && !menu.contains(e.target) && !hub.contains(e.target)){
+        menu.classList.remove('show');
+        // 同時收起所有子菜單
+        menu.querySelectorAll('.dropdown-content').forEach(dc => dc.classList.remove('show'));
+    }
+});
+/* ==============================
+   將變量套用到所有按鈕
+============================== */
+document.querySelectorAll(".desktop-cloud, .mobile-cloud").forEach(el => el.href = CLOUD_URL);
+document.querySelectorAll(".desktop-modpack, .mobile-modpack").forEach(el=>{ el.href = MODPACK_URL; });
+document.querySelectorAll(".desktop-map, .mobile-map").forEach(el=>{ el.href = MAP_URL; });
+document.querySelectorAll(".discord-desktop, .discord-mobile").forEach(el=>{ el.href = DISCORD_URL; });
+document.querySelectorAll(".youtube-desktop, .youtube-mobile").forEach(el=>{ el.href = YOUTUBE_URL; });
+document.querySelectorAll(".github-desktop, .github-mobile").forEach(el=>{ el.href = GITHUB_URL; });
+/* 粒子背景動畫 */
+const canvas = document.createElement('canvas');
+document.getElementById('particles').appendChild(canvas);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const ctx = canvas.getContext('2d');
+let particles = [];
+for(let i=0;i<100;i++){
+    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,speed:Math.random()*0.5+0.2});
+}
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="rgba(255,255,255,0.5)";
+        ctx.fill();
+        p.y -= p.speed;
+        if(p.y<0)p.y=canvas.height;
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
+</script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LTL Studio</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ==============================
+     Hub
+============================== -->
+
+<div class="nav-bar">
+
+
+    <!-- Logo -->
+
+    <div class="logo">
+
+        <a href="/">
+
+            <img src="images/logo.png" alt="LTL Studio">
+
+        </a>
+
+    </div>
+
+
+    <!-- Desktop Menu -->
+
+    <div class="nav-menu">
+
+
+        <!-- Blog -->
+
+        <div class="nav-item">
+
+            <a
+                class="nav-link"
+                href="/"
+                data-lang="blog">
+
+                博客
+
+            </a>
+
+        </div>
+
+
+        <!-- Support -->
+
+        <div class="nav-item dropdown">
+
+            <a
+                class="nav-link"
+                href="#"
+                data-lang="support">
+
+                支援 ▼
+
+            </a>
+
+
+            <div class="dropdown-content">
+
+                <a
+                    id="minecraft"
+                    data-lang="minecraft">
+
+                    Minecraft
+
+                </a>
+
+
+                <a
+                    id="cloud"
+                    data-lang="cloud">
+
+                    雲端服務
+
+                </a>
+
+
+                <a
+                    id="docs"
+                    data-lang="docs">
+
+                    文件
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Community -->
+
+        <div class="nav-item dropdown">
+
+            <a
+                class="nav-link"
+                href="#"
+                data-lang="community">
+
+                社群 ▼
+
+            </a>
+
+
+            <div class="dropdown-content">
+
+                <a id="discord">
+
+                    Discord
+
+                </a>
+
+
+                <a id="youtube">
+
+                    YouTube
+
+                </a>
+
+
+                <a id="github">
+
+                    GitHub
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Language -->
+
+    <div class="language">
+
+        <button
+            id="language-btn"
+            data-lang="language"
+            onclick="changeLanguage()">
+
+            🌐 English
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==============================
+     Mobile Menu
+============================== -->
+
+<div id="mobile-menu">
+
+
+    <!-- Blog -->
+
+    <a
+        class="mobile-link"
+        href="/"
+        data-lang="blog">
+
+        博客
+
+    </a>
+
+
+    <!-- Support -->
+
+    <div class="mobile-dropdown">
+
+        <button
+            class="mobile-dropdown-btn"
+            data-lang="support">
+
+            支援 ▼
+
+        </button>
+
+
+        <div class="mobile-dropdown-content">
+
+            <a id="mobile-minecraft">
+
+                Minecraft
+
+            </a>
+
+
+            <a id="mobile-cloud">
+
+                雲端服務
+
+            </a>
+
+
+            <a id="mobile-docs">
+
+                文件
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Community -->
+
+    <div class="mobile-dropdown">
+
+        <button
+            class="mobile-dropdown-btn"
+            data-lang="community">
+
+            社群 ▼
+
+        </button>
+
+
+        <div class="mobile-dropdown-content">
+
+            <a id="mobile-discord">
+
+                Discord
+
+            </a>
+
+
+            <a id="mobile-youtube">
+
+                YouTube
+
+            </a>
+
+
+            <a id="mobile-github">
+
+                GitHub
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==============================
+     Mobile Menu Button
+============================== -->
+
+<button
+    id="mobile-menu-btn"
+    aria-label="Menu">
+
+    ☰
+
+</button>
+
+
+
+<!-- ==============================
+     Blog
+============================== -->
+
+<header>
+
+    <div class="card">
+
+        <h1 data-lang="title">
+
+            LTL Studio
+
+        </h1>
+
+
+        <p data-lang="intro">
+
+            LTL Studio 是一個技術與專案展示平台。
+
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==============================
+     Latest Updates
+============================== -->
+
+<section>
+
+    <div class="card">
+
+        <h2 data-lang="latest">
+
+            最新更新
+
+        </h2>
+
+
+        <p>
+
+            Website Hub 重構
+
+        </p>
+
+
+        <p>
+
+            Minecraft Server 移入 Support
+
+        </p>
+
+
+        <p>
+
+            多語言支援加入
+
+        </p>
+
+    </div>
+
+
+    <!-- Projects -->
+
+    <div class="card">
+
+        <h2 data-lang="projects">
+
+            專案
+
+        </h2>
+
+
+        <p>
+
+            Minecraft Server
+
+        </p>
+
+
+        <p>
+
+            Hardware Projects
+
+        </p>
+
+
+        <p>
+
+            Software Development
+
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==============================
+     JavaScript
+============================== -->
+
+<script src="js/config.js"></script>
+
+<script src="js/language.js"></script>
+
+<script src="js/main.js"></script>
+
+
+</body>
+
+</html>

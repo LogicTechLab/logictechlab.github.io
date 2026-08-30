@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>維護中 - MCLTL Minecraft Server</title>
+<style>
+/* =======================
+    全局樣式
+======================= */
+body {
+    margin:0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background:#0f1115;
+    color:white;
+    overflow-x:hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =======================
+    Hub (導航欄)
+======================= */
+.nav-bar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 40px;
+    background:#1b1f27;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+    box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+.nav-bar .logo img { max-height: 50px; width:auto; vertical-align: middle; }
+.nav-menu{ display:flex; gap:10px; align-items:center; }
+.nav-item{ position:relative; font-size:16px; }
+.nav-link{ display:block; padding:10px 15px; color:white; text-decoration:none; border-radius:6px; transition: 0.3s; }
+.nav-link:hover{ background:#2f80ff; }
+
+/* 下拉選單 */
+.dropdown-content{
+    display:none;
+    position:absolute;
+    background:#171a21;
+    min-width:160px;
+    top:100%;
+    left:0;
+    flex-direction:column;
+    border-radius:6px;
+    box-shadow:0 8px 16px rgba(0,0,0,0.3);
+    z-index:50;
+}
+.dropdown-content a{ display:block; padding:12px 16px; color:white; text-decoration:none; }
+.dropdown-content a:hover{ background:#2f80ff; border-radius:6px; }
+.nav-item.dropdown:hover .dropdown-content{ display:flex; }
+
+/* =======================
+    維護內容主體
+======================= */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 20px;
+}
+.maintenance-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+h1 { font-size: 48px; margin: 0; color: #2f80ff; }
+.subtitle { font-size: 20px; color: #aaa; margin-top: 15px; max-width: 600px; }
+
+/* =======================
+    手機端樣式
+======================= */
+@media screen and (max-width:768px){
+    .nav-bar{ display:none; }
+    .mobile-hub{
+        display:flex;
+        align-items:center;
+        justify-content: space-between;
+        padding:10px 20px;
+        background:#1b1f27;
+        position:fixed;
+        top:0;
+        width:100%;
+        z-index:100;
+        box-sizing: border-box;
+    }
+    .mobile-hub .hamburger{ font-size:28px; cursor:pointer; color:white; }
+    .mobile-hub .logo img{ max-height:40px; }
+
+    .mobile-menu{
+        position:fixed;
+        left:-260px;
+        top:0;
+        height:100%;
+        width:250px;
+        background:#171a21;
+        display:flex;
+        flex-direction:column;
+        padding:70px 10px 20px 10px;
+        transition:left 0.3s ease;
+        z-index:105;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    }
+    .mobile-menu.show{ left:0; }
+    .mobile-menu .nav-link{ padding:15px; font-size: 18px; border-bottom: 1px solid #2a2e35; }
+    
+    .mobile-menu .dropdown-content{
+        position: relative;
+        display: none;
+        background: #11141a;
+        box-shadow: none;
+    }
+    .mobile-menu .dropdown-content.show{ display: flex; }
+}
+
+@media screen and (min-width:769px){
+    .mobile-hub, .mobile-menu { display:none; }
+}
+
+footer{ text-align:center; padding:30px; background:#0a0c10; color:#666; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+    <div class="logo"><a href="#"><img src="images/logo.png" alt="LTL Logo"></a></div>
+    <div class="nav-menu">
+        <div class="nav-item dropdown">
+            <a class="nav-link" href="javascript:void(0)">加入社區 ▼</a>
+            <div class="dropdown-content">
+                <a href="https://discord.gg/CQsjNVZT4r" target="_blank">Discord</a>
+                <a href="https://youtube.com/@Bill_LTL.Studio" target="_blank">YouTube</a>
+                <a href="https://www.github.com/Bill-LTL" target="_blank">GitHub</a>
+            </div>
+        </div>
+        <div class="nav-item"><a class="nav-link" href="https://wwbgr.lanzn.com/i3L0M3mh9y3e" target="_blank">整合包下載</a></div>
+        <div class="nav-item"><a class="nav-link" href="#">世界地圖</a></div>
+    </div>
+</div>
+
+<div class="mobile-hub">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="logo"><img src="images/logo.png" alt="LTL Logo"></div>
+    <div style="width:28px;"></div> </div>
+
+<div class="mobile-menu" id="mobileMenu">
+    <div class="nav-item"><a class="nav-link" href="#">首頁</a></div>
+    <div class="nav-item dropdown">
+        <a class="nav-link" href="javascript:void(0)" onclick="toggleDropdown(this)">社區媒體 ▼</a>
+        <div class="dropdown-content">
+            <a href="https://discord.gg/CQsjNVZT4r" target="_blank">Discord</a>
+            <a href="https://youtube.com/@Bill_LTL.Studio" target="_blank">YouTube</a>
+        </div>
+    </div>
+    <div class="nav-item"><a class="nav-link" href="#">整合包下載</a></div>
+    <div class="nav-item"><a class="nav-link" href="#">世界地圖</a></div>
+</div>
+
+<div class="main-content">
+    <div class="maintenance-icon">🛠️</div>
+    <h1>伺服器維護中(可能)</h1>
+    <p class="subtitle">
+        伺服器可能正在進行維護，暫時無法訪問。<br>
+        註：伺服器僅在節假日且日間至23:00開機。
+    </p>
+</div>
+
+<footer>
+    © 2026 LTL Minecraft Server | 穩定運行中 (並不是)
+</footer>
+
+<script>
+/* 側邊菜單切換 */
+function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('show');
+}
+
+/* 手機端下拉子選單 */
+function toggleDropdown(element) {
+    const content = element.nextElementSibling;
+    content.classList.toggle('show');
+}
+
+/* 點擊空白處關閉菜單 */
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobileMenu');
+    const hamburger = document.querySelector('.hamburger');
+    if (menu.classList.contains('show') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+        menu.classList.remove('show');
+    }
+});
+</script>
+
+</body>
+</html>
