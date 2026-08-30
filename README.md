@@ -23,7 +23,7 @@ This repository is intended for:
 
 🛠️ Technologies
 
-This website may use technologies including:
+This website use technologies including:
 
 - HTML
 - CSS
